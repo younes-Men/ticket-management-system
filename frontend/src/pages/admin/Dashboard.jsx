@@ -1,8 +1,8 @@
-import React from "react"
-import { useState, useEffect } from "react"
-import axios from "axios"
-import Layout from "../../components/Layout"
-import { Link } from "react-router-dom"
+import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Layout from "../../components/Layout";
+import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -12,37 +12,38 @@ const AdminDashboard = () => {
     totalClients: 0,
     totalDemandeurs: 0,
     totalCollaborateurs: 0,
-  })
-  const [recentTickets, setRecentTickets] = useState([])
-  const [recentClients, setRecentClients] = useState([])
-  const [recentDemandeurs, setRecentDemandeurs] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  });
+  const [recentTickets, setRecentTickets] = useState([]);
+  const [recentClients, setRecentClients] = useState([]);
+  const [recentDemandeurs, setRecentDemandeurs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [statsRes, ticketsRes, clientsRes, demandeursRes] = await Promise.all([
-          axios.get("/api/admin/statistics"),
-          axios.get("/api/tickets/recent"),
-          axios.get("/api/clients?limit=5"),
-          axios.get("/api/demandeurs?limit=5"),
-        ])
+        const [statsRes, ticketsRes, clientsRes, demandeursRes] =
+          await Promise.all([
+            axios.get("/api/admin/statistics"),
+            axios.get("/api/tickets/recent"),
+            axios.get("/api/clients?limit=5"),
+            axios.get("/api/demandeurs?limit=5"),
+          ]);
 
-        setStats(statsRes.data)
-        setRecentTickets(ticketsRes.data)
-        setRecentClients(clientsRes.data)
-        setRecentDemandeurs(demandeursRes.data)
+        setStats(statsRes.data);
+        setRecentTickets(ticketsRes.data);
+        setRecentClients(clientsRes.data);
+        setRecentDemandeurs(demandeursRes.data);
       } catch (err) {
-        setError("Erreur lors du chargement des données")
-        console.error(err)
+        setError("Erreur lors du chargement des données");
+        console.error(err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   if (loading) {
     return (
@@ -52,11 +53,13 @@ const AdminDashboard = () => {
             <div className="w-4 h-4 rounded-full bg-teal-500 animate-pulse"></div>
             <div className="w-4 h-4 rounded-full bg-teal-500 animate-pulse delay-75"></div>
             <div className="w-4 h-4 rounded-full bg-teal-500 animate-pulse delay-150"></div>
-            <p className="text-slate-600 font-medium">Chargement des données...</p>
+            <p className="text-slate-600 font-medium">
+              Chargement des données...
+            </p>
           </div>
         </div>
       </Layout>
-    )
+    );
   }
 
   if (error) {
@@ -80,14 +83,18 @@ const AdminDashboard = () => {
           {error}
         </div>
       </Layout>
-    )
+    );
   }
 
   return (
     <Layout>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-slate-800">Tableau de bord administrateur</h1>
-        <p className="text-slate-500 mt-1">Bienvenue dans votre espace d'administration</p>
+        <h1 className="text-3xl font-bold text-slate-800">
+          Tableau de bord administrateur
+        </h1>
+        <p className="text-slate-500 mt-1">
+          Bienvenue dans votre espace d'administration
+        </p>
       </div>
 
       {/* Stats Overview Cards */}
@@ -133,7 +140,12 @@ const AdminDashboard = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </Link>
         </div>
@@ -169,7 +181,12 @@ const AdminDashboard = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </Link>
         </div>
@@ -205,7 +222,12 @@ const AdminDashboard = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </Link>
         </div>
@@ -241,7 +263,12 @@ const AdminDashboard = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </Link>
         </div>
@@ -249,7 +276,9 @@ const AdminDashboard = () => {
 
       {/* Quick Actions */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4 text-slate-800">Actions rapides</h2>
+        <h2 className="text-xl font-semibold mb-4 text-slate-800">
+          Actions rapides
+        </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           <Link
             to="/tickets/create"
@@ -263,10 +292,17 @@ const AdminDashboard = () => {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
               </svg>
             </div>
-            <span className="text-sm font-medium text-slate-700">Nouveau ticket</span>
+            <span className="text-sm font-medium text-slate-700">
+              Nouveau ticket
+            </span>
           </Link>
 
           <Link
@@ -289,7 +325,9 @@ const AdminDashboard = () => {
                 />
               </svg>
             </div>
-            <span className="text-sm font-medium text-slate-700">Nouveau client</span>
+            <span className="text-sm font-medium text-slate-700">
+              Nouveau client
+            </span>
           </Link>
 
           <Link
@@ -312,7 +350,9 @@ const AdminDashboard = () => {
                 />
               </svg>
             </div>
-            <span className="text-sm font-medium text-slate-700">Nouveau demandeur</span>
+            <span className="text-sm font-medium text-slate-700">
+              Nouveau demandeur
+            </span>
           </Link>
 
           <Link
@@ -335,7 +375,9 @@ const AdminDashboard = () => {
                 />
               </svg>
             </div>
-            <span className="text-sm font-medium text-slate-700">Gérer utilisateurs</span>
+            <span className="text-sm font-medium text-slate-700">
+              Gérer utilisateurs
+            </span>
           </Link>
 
           <Link
@@ -358,12 +400,13 @@ const AdminDashboard = () => {
                 />
               </svg>
             </div>
-            <span className="text-sm font-medium text-slate-700">Statistiques</span>
+            <span className="text-sm font-medium text-slate-700">
+              Statistiques
+            </span>
           </Link>
         </div>
       </div>
 
-    
       {/* Recent Tickets */}
       <div className="bg-white rounded-xl shadow-md border border-slate-100 overflow-hidden">
         <div className="p-6 border-b border-slate-100 flex justify-between items-center">
@@ -396,7 +439,12 @@ const AdminDashboard = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </Link>
         </div>
@@ -421,26 +469,58 @@ const AdminDashboard = () => {
                     key={ticket._id}
                     className="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150"
                   >
-                    <td className="py-3 px-4 font-medium text-slate-700">{ticket._id.substring(0, 8)}</td>
-                    <td className="py-3 px-4 text-slate-600">{ticket.client.nom}</td>
-                    <td className="py-3 px-4 text-slate-600">
-                      {ticket.demandeur.nom} {ticket.demandeur.prenom}
+                    <td className="py-3 px-4 font-medium text-slate-700">
+                      {ticket._id?.substring(0, 8)}
                     </td>
-                    <td className="py-3 px-4 text-slate-600">{ticket.observation.substring(0, 30)}...</td>
+
+                    {/* Client */}
+                    <td className="py-3 px-4 text-slate-600">
+                      {ticket.client?.nom ?? "Inconnu"}
+                    </td>
+
+                    {/* Demandeur */}
+                    <td className="py-3 px-4 text-slate-600">
+                      {ticket.demandeur
+                        ? `${ticket.demandeur.nom ?? ""} ${
+                            ticket.demandeur.prenom ?? ""
+                          }`
+                        : "Inconnu"}
+                    </td>
+
+                    {/* Problème */}
+                    <td className="py-3 px-4 text-slate-600">
+                      {ticket.observation
+                        ? `${ticket.observation.substring(0, 30)}...`
+                        : "—"}
+                    </td>
+
+                    {/* État */}
                     <td className="py-3 px-4">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-medium ${
                           ticket.etat === "ouvert"
                             ? "bg-amber-100 text-amber-800"
                             : ticket.etat === "en_cours"
-                              ? "bg-teal-100 text-teal-800"
-                              : "bg-emerald-100 text-emerald-800"
+                            ? "bg-teal-100 text-teal-800"
+                            : "bg-emerald-100 text-emerald-800"
                         }`}
                       >
-                        {ticket.etat === "ouvert" ? "Ouvert" : ticket.etat === "en_cours" ? "En cours" : "Fermé"}
+                        {ticket.etat === "ouvert"
+                          ? "Ouvert"
+                          : ticket.etat === "en_cours"
+                          ? "En cours"
+                          : "Fermé"}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-slate-600">{new Date(ticket.date).toLocaleDateString()}</td>
+
+                    {/* Date */}
+                    <td className="py-3 px-4 text-slate-600">
+                      {ticket.date
+                        ? new Date(ticket.date).toLocaleDateString()
+                        : "—"}
+                    </td>
+
+                    {/* Actions */}
                     <td className="py-3 px-4">
                       <Link
                         to={`/tickets/${ticket._id}`}
@@ -505,7 +585,7 @@ const AdminDashboard = () => {
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;
