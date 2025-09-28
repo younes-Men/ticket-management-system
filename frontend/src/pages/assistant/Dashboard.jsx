@@ -357,117 +357,77 @@ const AssistantDashboard = () => {
                 <th className="py-3 px-4 text-left font-medium">ID</th>
                 <th className="py-3 px-4 text-left font-medium">Client</th>
                 <th className="py-3 px-4 text-left font-medium">Demandeur</th>
-                <th className="py-3 px-4 text-left font-medium">Problème</th>
-                <th className="py-3 px-4 text-left font-medium">État</th>
+                <th className="py-3 px-4 text-left font-medium">Observation</th>
                 <th className="py-3 px-4 text-left font-medium">Date</th>
+                <th className="py-3 px-4 text-left font-medium">Statut</th>
                 <th className="py-3 px-4 text-left font-medium">Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {recentTickets.length > 0 ? (
+            <tbody className="text-slate-700">
+              {recentTickets.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="py-6 text-center text-slate-500">
+                    Aucun ticket récent
+                  </td>
+                </tr>
+              ) : (
                 recentTickets.map((ticket) => (
-                  <tr
-                    key={ticket._id}
-                    className="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150"
-                  >
-                    <td className="py-3 px-4 font-medium text-slate-700">{ticket._id.substring(0, 8)}</td>
-                    <td className="py-3 px-4 text-slate-600">{ticket.client.nom}</td>
+                  <tr key={ticket.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-4 font-medium text-slate-800">#{ticket.id}</td>
+                    <td className="py-3 px-4 text-slate-600">{ticket.client?.nom || "—"}</td>
                     <td className="py-3 px-4 text-slate-600">
-                      {ticket.demandeur.nom} {ticket.demandeur.prenom}
+                      {ticket.demandeur ? `${ticket.demandeur.nom} ${ticket.demandeur.prenom}` : "—"}
                     </td>
-                    <td className="py-3 px-4 text-slate-600">{ticket.observation.substring(0, 30)}...</td>
+                    <td className="py-3 px-4 text-slate-600">
+                      {ticket.observation ? ticket.observation.substring(0, 30) + "..." : "—"}
+                    </td>
+                    <td className="py-3 px-4 text-slate-600">
+                      {ticket.created_at
+                        ? new Date(ticket.created_at).toLocaleDateString("fr-FR")
+                        : "—"}
+                    </td>
                     <td className="py-3 px-4">
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          ticket.etat === "ouvert"
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          ticket.status === "open"
                             ? "bg-amber-100 text-amber-800"
-                            : ticket.etat === "en_cours"
-                              ? "bg-teal-100 text-teal-800"
-                              : "bg-emerald-100 text-emerald-800"
+                            : "bg-emerald-100 text-emerald-800"
                         }`}
                       >
-                        {ticket.etat === "ouvert" ? "Ouvert" : ticket.etat === "en_cours" ? "En cours" : "Fermé"}
+                        {ticket.status === "open" ? "Ouvert" : "Fermé"}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-slate-600">{new Date(ticket.date).toLocaleDateString()}</td>
                     <td className="py-3 px-4">
-                      <Link
-                        to={`/tickets/${ticket._id}`}
-                        className="text-teal-600 hover:text-teal-800 transition-colors font-medium text-sm flex items-center"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4 mr-1"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
+                      <div className="flex space-x-2">
+                        <Link
+                          to={`/tickets/${ticket.id}`}
+                          className="text-blue-600 hover:text-blue-800 transition-colors flex items-center text-sm font-medium"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                          />
-                        </svg>
-                        Détails
-                      </Link>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 mr-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          Détails
+                        </Link>
+                      </div>
                     </td>
                   </tr>
                 ))
-              ) : (
-                <tr>
-                  <td colSpan="7" className="py-8 text-center text-slate-500">
-                    <div className="flex flex-col items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-12 w-12 text-slate-300 mb-2"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                        />
-                      </svg>
-                      <p>Aucun ticket récent</p>
-                      <Link
-                        to="/tickets/create"
-                        className="mt-2 inline-block bg-teal-100 text-teal-700 hover:bg-teal-200 transition-colors px-4 py-2 rounded-lg text-sm font-medium"
-                      >
-                        Créer un ticket
-                      </Link>
-                    </div>
-                  </td>
-                </tr>
               )}
             </tbody>
           </table>
         </div>
       </div>
-      <Link
-        to="/tickets"
-        className="mt-4 inline-flex items-center text-sm bg-white text-teal-700 hover:bg-opacity-90 rounded-lg px-3 py-1.5 transition-all duration-200"
-      >
-        Voir détails
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4 ml-1"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </Link>
     </Layout>
   )
 }
